@@ -488,25 +488,22 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Controls row
-col_upload, col_conf = st.columns([3, 1])
+# Upload gambar
+uploaded_file = st.file_uploader(
+    "Upload gambar naskah aksara Jawa",
+    type=["jpg", "jpeg", "png", "bmp", "tiff", "tif"],
+    help="Upload gambar naskah kuno yang berisi aksara Jawa untuk dikenali"
+)
 
-with col_conf:
-    conf_threshold = st.slider(
-        "Confidence Threshold",
-        min_value=0.05,
-        max_value=0.95,
-        value=0.25,
-        step=0.05,
-        help="Minimum confidence untuk deteksi kata oleh YOLOv8"
-    )
-
-with col_upload:
-    uploaded_file = st.file_uploader(
-        "Upload gambar naskah aksara Jawa",
-        type=["jpg", "jpeg", "png", "bmp", "tiff"],
-        help="Upload gambar naskah kuno yang berisi aksara Jawa untuk dikenali"
-    )
+# Confidence Threshold
+conf_threshold = st.slider(
+    "Confidence Threshold",
+    min_value=0.05,
+    max_value=0.95,
+    value=0.25,
+    step=0.05,
+    help="Minimum confidence untuk deteksi kata oleh YOLOv8"
+)
 
 
 if uploaded_file is not None:
@@ -517,23 +514,26 @@ if uploaded_file is not None:
     if image is None:
         st.error("Gagal membaca gambar. Pastikan file adalah gambar yang valid.")
     else:
-        # Display original image
-        col_orig, col_info = st.columns([3, 1])
-        with col_orig:
-            st.markdown('<div class="section-title">Gambar Input</div>', unsafe_allow_html=True)
-            image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            st.image(image_rgb, use_container_width=True)
+        h, w = image.shape[:2]
 
-        with col_info:
-            h, w = image.shape[:2]
-            st.markdown(f"""
-            <div class="info-panel">
-                <div class="info-label">Info Gambar</div>
-                <p><strong>File:</strong> {uploaded_file.name}</p>
-                <p><strong>Ukuran:</strong> {w} x {h} px</p>
-                <p><strong>Size:</strong> {uploaded_file.size / 1024:.1f} KB</p>
-            </div>
-            """, unsafe_allow_html=True)
+        # Info Gambar
+        st.markdown(f"""
+        <div class="info-panel">
+            <div class="info-label">Info Gambar</div>
+            <p><strong>File:</strong> {uploaded_file.name}</p>
+            <p><strong>Ukuran:</strong> {w} x {h} px</p>
+            <p><strong>Size:</strong> {uploaded_file.size / 1024:.1f} KB</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("")
+
+        # Gambar Input (centered, fixed size)
+        st.markdown('<div class="section-title">Gambar Input</div>', unsafe_allow_html=True)
+        st.markdown('<div style="display: flex; justify-content: center;">', unsafe_allow_html=True)
+        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        st.image(image_rgb, use_container_width=False, width=300)
+        st.markdown('</div>', unsafe_allow_html=True)
 
         st.markdown("")
 
@@ -599,7 +599,7 @@ if uploaded_file is not None:
                     st.markdown('<div class="section-title">Hasil Deteksi</div>', unsafe_allow_html=True)
                     annotated_img = draw_annotated_image(image, results)
                     annotated_rgb = cv2.cvtColor(annotated_img, cv2.COLOR_BGR2RGB)
-                    st.image(annotated_rgb, use_container_width=True)
+                    st.image(annotated_rgb, use_container_width=False, width=500)
 
                 with col_table:
                     st.markdown('<div class="section-title">Detail per Kata</div>', unsafe_allow_html=True)
