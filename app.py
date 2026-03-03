@@ -4,11 +4,6 @@ Streamlit App — OCR Aksara Jawa (Javanese Script OCR)
 Aplikasi web untuk mengenali aksara Jawa dalam gambar naskah kuno
 menggunakan pipeline YOLOv8 + CRNN + CTC Decoding.
 """
-import subprocess, sys
-subprocess.run(
-    [sys.executable, '-m', 'pip', 'uninstall', 'opencv-python', '-y'],
-    capture_output=True
-)
 
 import os
 import sys
