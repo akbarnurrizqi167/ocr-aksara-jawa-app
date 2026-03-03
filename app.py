@@ -528,13 +528,20 @@ if uploaded_file is not None:
 
         st.markdown("")
 
-        # Gambar Input (centered, fixed size)
+        ## Gambar Input (centered, fixed size)
+        # st.markdown('<div class="section-title">Gambar Input</div>', unsafe_allow_html=True)
+        # st.markdown('<div style="display: flex; justify-content: center;">', unsafe_allow_html=True)
+        # image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        # st.image(image_rgb, use_container_width=True)
+        ## st.image(image_rgb, use_container_width=False, width=300)
+        # st.markdown('</div>', unsafe_allow_html=True)
+
+        # Gambar Input (centered)
         st.markdown('<div class="section-title">Gambar Input</div>', unsafe_allow_html=True)
-        st.markdown('<div style="display: flex; justify-content: center;">', unsafe_allow_html=True)
-        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        st.image(image_rgb, use_container_width=True)
-        # st.image(image_rgb, use_container_width=False, width=300)
-        st.markdown('</div>', unsafe_allow_html=True)
+        col_l, col_img, col_r = st.columns([1, 2, 1])
+        with col_img:
+            image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+            st.image(image_rgb, use_container_width=True)
 
         st.markdown("")
 
@@ -593,6 +600,16 @@ if uploaded_file is not None:
 
                 st.markdown("")
 
+                ## Detection + Table
+                #st.markdown('<div class="section-title">Hasil Deteksi</div>', unsafe_allow_html=True)
+                #col_l2, col_det, col_r2 = st.columns([1, 2, 1])
+                #with col_det:
+                    #annotated_img = draw_annotated_image(image, results)
+                    #annotated_rgb = cv2.cvtColor(annotated_img, cv2.COLOR_BGR2RGB)
+                    #st.image(annotated_rgb, use_container_width=True)
+
+                #st.markdown('<div class="section-title">Detail per Kata</div>', unsafe_allow_html=True)
+                
                 # Detection + Table
                 col_det, col_table = st.columns([3, 2])
 
