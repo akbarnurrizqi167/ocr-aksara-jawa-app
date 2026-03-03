@@ -627,19 +627,18 @@ if uploaded_file is not None:
                     unsafe_allow_html=True
                 )
 
-                # Cropped Words Grid
-                st.markdown('<div class="section-title">Kata Terdeteksi (Cropped)</div>', unsafe_allow_html=True)
+                # Cropped Words Grid (Expandable)
+                with st.expander("Kata Terdeteksi (Cropped)"):
+                    num_cols = 5
+                    cols = st.columns(num_cols)
 
-                num_cols = 5
-                cols = st.columns(num_cols)
-
-                for i, r in enumerate(results['results']):
-                    crop = r.get('crop')
-                    if crop is not None and crop.size > 0:
-                        with cols[i % num_cols]:
-                            crop_rgb = cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)
-                            st.image(crop_rgb, use_container_width=True)
-                            st.caption(f"**{r['text']}** — {r['recognition_conf']:.0%}")
+                    for i, r in enumerate(results['results']):
+                        crop = r.get('crop')
+                        if crop is not None and crop.size > 0:
+                            with cols[i % num_cols]:
+                                crop_rgb = cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)
+                                st.image(crop_rgb, use_container_width=True)
+                                st.caption(f"**{r['text']}** — {r['recognition_conf']:.0%}")
 
                 # Divider
                 st.markdown(
