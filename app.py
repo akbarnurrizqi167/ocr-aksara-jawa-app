@@ -44,6 +44,15 @@ st.markdown("""
         color: #3d2b1f;
     }
 
+    /* Hilangkan padding atas Streamlit */
+    .block-container {
+        padding-top: 0 !important;
+    }
+
+    .appview-container > section:first-child {
+        padding-top: 0 !important;
+    }
+
     /* ---- Header ---- */
     .app-header {
         background-color: #3d2b1f;
